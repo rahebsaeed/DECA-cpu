@@ -46,4 +46,11 @@ __pycache__
 ## internal use
 cluster_scripts
 internal
-*TestSamples*
+*TestSamples/AFLW2000*
+*TestSamples/animation_results*
+*TestSamples/exp*
+*TestSamples/teaser*
+
+
+/raheb
+*.Identifier

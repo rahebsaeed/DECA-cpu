@@ -23,6 +23,12 @@ wget -O deca_model.tar "https://huggingface.co/camenduru/show/resolve/d95d9e7901
 # Download FLAME albedo model
 wget -O FLAME_albedo_from_BFM.npz "https://huggingface.co/camenduru/TalkingHead/resolve/main/FLAME_albedo_from_BFM.npz?download=true"
 
+
+wget -O head_template.obj "https://huggingface.co/camenduru/show/resolve/064a379f415f674051145ec4862f54bd6a65073f/models/models_MICA/FLAME2020/head_template.obj"
+
+wget -O landmark_embedding.npy https://huggingface.co/camenduru/show/resolve/064a379f415f674051145ec4862f54bd6a65073f/models/models_MICA/FLAME2020/landmark_embedding.npy"
+
+
 # Extract DECA model directly into ./data
 echo "=== Extracting deca_model.tar into ./data ==="
 tar -xvf deca_model.tar

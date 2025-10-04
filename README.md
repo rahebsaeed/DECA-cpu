@@ -5,7 +5,6 @@
 </p>
 <p align="center">input image, aligned reconstruction, animation with various poses & expressions<p align="center">
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/YadiraF/DECA/blob/master/Detailed_Expression_Capture_and_Animation.ipynb?authuser=1)
 
 This is the official Pytorch implementation of DECA. 
 
@@ -21,23 +20,19 @@ The main features:
 ## Getting Started
 Clone the repo:
   ```bash
-  git clone https://github.com/YadiraF/DECA
-  cd DECA
+  git clone https://github.com/rahebsaeed/DECA-cpu
+  cd DECA-cpu
   ```  
 
 ### Requirements
 * Python 3.7 (numpy, skimage, scipy, opencv)  
-* PyTorch >= 1.6 (pytorch3d)  
+* PyTorch == 1.6 (pytorch3d)  
 * face-alignment (Optional for detecting face)  
   You can run 
   ```bash
-  pip install -r requirements.txt
+  bash install.sh
   ```
-  Or use virtual environment by runing 
-  ```bash
-  bash install_conda.sh
-  ```
-  For visualization, we use our rasterizer that uses pytorch JIT Compiling Extensions. If there occurs a compiling error, you can install [pytorch3d](https://github.com/facebookresearch/pytorch3d/blob/master/INSTALL.md) instead and set --rasterizer_type=pytorch3d when running the demos.
+
 
 ### Usage
 1. Prepare data   
@@ -52,7 +47,8 @@ Clone the repo:
 2. Run demos  
     a. **reconstruction**  
     ```bash
-    python demos/demo_reconstruct.py -i TestSamples/examples --saveDepth True --saveObj True
+    python demos/demo_reconstruct.py -i TestSamples/examples --saveDepth True --saveObj True --rasterizer_type pytorch3d --device cpu --render_orig False --useTex True
+
     ```   
     to visualize the predicted 2D landmanks, 3D landmarks (red means non-visible points), coarse geometry, detailed geometry, and depth.   
     <p align="center">   
