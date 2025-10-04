@@ -1,14 +1,48 @@
 #!/bin/bash
 set -e
 
-echo "[INFO] Creating virtual environment..."
-python3 -m venv env
-source env/bin/activate
+echo "====================================================="
+echo "[DECA CPU Installer] Cross-Platform Environment Setup"
+echo "====================================================="
 
-echo "[INFO] Upgrading pip..."
+# --- Detect OS ---
+OS_TYPE=$(uname | tr '[:upper:]' '[:lower:]')
+echo "[INFO] Detected OS: $OS_TYPE"
+
+# --- Check for Python 3.7 ---
+if command -v python3.7 &>/dev/null; then
+    PYTHON_CMD="python3.7"
+elif command -v py &>/dev/null && py -3.7 -c "exit()" 2>/dev/null; then
+    PYTHON_CMD="py -3.7"
+else
+    echo "[ERROR] Python 3.7 not found!"
+    echo "Please install Python 3.7 before proceeding."
+    echo "On Ubuntu: sudo apt install python3.7 python3.7-venv"
+    echo "On Windows: install via https://www.python.org/downloads/release/python-370/"
+    exit 1
+fi
+
+# --- Create and activate virtual environment ---
+if [[ "$OS_TYPE" == *"linux"* || "$OS_TYPE" == *"wsl"* ]]; then
+    echo "[INFO] Creating Python 3.7 virtual environment on Linux/WSL..."
+    $PYTHON_CMD -m venv env
+    source env/bin/activate
+elif [[ "$OS_TYPE" == *"mingw"* || "$OS_TYPE" == *"msys"* || "$OS_TYPE" == *"cygwin"* ]]; then
+    echo "[INFO] Creating Python 3.7 virtual environment on Windows..."
+    $PYTHON_CMD -m venv env
+    source env/Scripts/activate
+else
+    echo "[WARN] Unknown OS type. Defaulting to Linux-style activation."
+    $PYTHON_CMD -m venv env
+    source env/bin/activate
+fi
+
+# --- Upgrade pip ---
+echo "[INFO] Upgrading pip, setuptools, and wheel..."
 pip install --upgrade pip setuptools wheel
 
-echo "[INFO] Installing base Python packages..."
+# --- Install core dependencies ---
+echo "[INFO] Installing Python dependencies..."
 pip install \
     numpy==1.21.6 \
     scipy==1.7.3 \
@@ -39,12 +73,22 @@ pip install \
     chumpy==0.70 \
     ninja==1.11.1.4
 
-echo "[INFO] Installing torch + torchvision (CPU-only, PyTorch 1.6)..."
+# --- Install PyTorch (CPU-only) ---
+echo "[INFO] Installing PyTorch 1.6.0 + torchvision (CPU-only)..."
 pip install torch==1.6.0+cpu torchvision==0.7.0+cpu \
     -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
+# --- Install PyTorch3D (CPU) ---
 echo "[INFO] Installing PyTorch3D v0.3.0 (CPU-only)..."
 MAX_JOBS=1 FORCE_CUDA=0 pip install --no-build-isolation \
     "git+https://github.com/facebookresearch/pytorch3d.git@v0.3.0"
 
-echo "[INFO] Installation complete!"
+echo "====================================================="
+echo "[SUCCESS] DECA (CPU Edition) Installed Successfully!"
+echo "Activate environment with:"
+if [[ "$OS_TYPE" == *"linux"* || "$OS_TYPE" == *"wsl"* ]]; then
+    echo "source env/bin/activate"
+else
+    echo "env\\Scripts\\activate"
+fi
+echo "====================================================="
