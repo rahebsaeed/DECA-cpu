@@ -1,0 +1,27 @@
+#to install all this requirements
+#`pip install -r requirements.txt`
+numpy==1.18.5
+scipy==1.4.1 
+chumpy==0.69
+scikit-image==0.15 
+opencv-python==4.1.1 
+scikit-image==0.15     #skimage
+PyYAML==5.1.1         
+torch==1.6.0   # for compatible with pytorch3d
+torchvision==0.7.0
+face-alignment==1.1.1
+yacs==0.1.8
+kornia==0.4.0
+ninja
+fvcore
+--index-url https://download.pytorch.org/whl/cpu
+
+torch==1.12.1+cpu
+torchvision==0.13.1+cpu
+
+# Install PyTorch3D v0.7.0 directly from the GitHub source archive
+pytorch3d @ https://github.com/facebookresearch/pytorch3d/archive/refs/tags/v0.7.0.tar.gz
+# pytorch3d    
+python demos/demo_reconstruct.py -i raheb --saveDepth True --saveObj True --rasterizer_type pytorch3d --device cpu --render_orig False --useTex True
+pip install torch==1.6.0 torchvision==0.7.0     -f https://download.pytorch.org/whl/cpu/torch_stable.html
+ MAX_JOBS=1 FORCE_CUDA=0 pip install --no-build-isolation "git+https://github.com/facebookresearch/pytorch3d.git@v0.3.0"
